@@ -1,0 +1,9 @@
+= turbo_frame_tag comment do
+  .comment
+    .comment__user
+      = comment.user.email
+    %strong.comment__message
+      = comment.body
+    .comment__actions
+      = link_to 'Edit', edit_post_comment_path(comment.commentable, comment)
+      = button_to 'Delete', post_comment_path(comment.commentable, comment), method: :delete, data: { confirm: 'Are you sure?' }

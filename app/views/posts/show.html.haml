@@ -1,0 +1,27 @@
+.page-header
+  = link_to posts_path, class: 'btn btn-default' do
+    All posts
+  = link_to edit_post_path(@post), class: 'btn btn-primary' do
+    Edit
+
+%h2 Show Post
+
+%dl.dl-horizontal
+  %dt Title:
+  %dd= @post.title
+  %dt Body:
+  %dd= @post.body
+
+%h4 Comments
+
+- if user_signed_in?
+  = render partial: 'comments/form', locals: { comment: Comment.new, commentable: @post }
+- else
+  = link_to 'Sign up', new_user_registration_path
+  or
+  = link_to 'Log in', new_user_session_path
+  to comment
+
+= turbo_stream_from(@post, :comments)
+%div{ id: "#{dom_id(@post)}_comments" }
+  = render @post.comments
